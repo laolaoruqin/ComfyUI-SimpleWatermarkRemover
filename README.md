@@ -28,7 +28,7 @@ A lightweight and powerful watermark removal node for ComfyUI using the LaMa (La
 ## 🛠️ Installation
 Clone this repo to your `ComfyUI/custom_nodes` folder:
 ```bash
-git clone https://github.com/YOUR_USERNAME/ComfyUI-SimpleWatermarkRemover.git
+git clone https://github.com/laolaoruqin/ComfyUI-SimpleWatermarkRemover.git
 ```
 
 ## ⚠️ Manual Model Download
