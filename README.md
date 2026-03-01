@@ -1,6 +1,7 @@
 # ComfyUI-SimpleWatermarkRemover
 
 A lightweight and powerful watermark removal node for ComfyUI using the LaMa (Large Mask Inpainting) model.
+一个轻量级且强大的 ComfyUI 水印去除节点，使用 LaMa (Large Mask Inpainting) 模型。
 
 ## 📖 Usage / 使用方法
 
@@ -20,17 +21,20 @@ A lightweight and powerful watermark removal node for ComfyUI using the LaMa (La
 
 ---
 
-## 🚀 Features
-- **High Quality**: Uses the state-of-the-art LaMa model for seamless inpainting.
-- **Minimalist**: Simplified interface with only essential inputs.
-- **Auto-Download**: Automatically downloads the required model (~200MB) from Hugging Face.
+## 🚀 Features / 功能特点
+- **High Quality / 高质量**: Uses the state-of-the-art LaMa model for seamless inpainting. 使用 SOTA 级别的 LaMa 模型，实现无缝修复。
+- **Minimalist / 极简**: Simplified interface with only essential inputs. 界面精简，只保留核心输入。
+- **Auto-Download / 自动下载**: Automatically downloads the required model (~200MB) from Hugging Face. 第一次使用时自动从 Hugging Face 下载所需模型（约 200MB）。
 
-## 🛠️ Installation
+## 🛠️ Installation / 安装方法
 Clone this repo to your `ComfyUI/custom_nodes` folder:
+将此仓库克隆到您的 `ComfyUI/custom_nodes` 文件夹下：
 ```bash
 git clone https://github.com/laolaoruqin/ComfyUI-SimpleWatermarkRemover.git
 ```
 
-## ⚠️ Manual Model Download
+## ⚠️ Manual Model Download / 手动下载模型
 If auto-download fails, manually download [big-lama.pt](https://huggingface.co/fashn-ai/LaMa/resolve/main/big-lama.pt) and place it in:
+如果自动下载失败，请手动下载 [big-lama.pt](https://huggingface.co/fashn-ai/LaMa/resolve/main/big-lama.pt) 并放入以下路径：
+
 `ComfyUI/models/lama/big-lama.pt`
