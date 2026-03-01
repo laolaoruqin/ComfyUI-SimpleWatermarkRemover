@@ -1,0 +1,15 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.env
+.venv
+venv/
+ENV/
+
+# ComfyUI Models (important to exclude the large model file)
+models/lama/*.pt
+
+# OS
+.DS_Store
+Thumbs.db
