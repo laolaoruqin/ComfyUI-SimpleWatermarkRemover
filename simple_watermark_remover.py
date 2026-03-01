@@ -13,7 +13,6 @@ class SimpleWatermarkRemover:
                 "image": ("IMAGE",),
                 "mask": ("MASK",),
                 "algorithm": (["LAMA"], {"default": "LAMA"}),
-                "help": (["(Click for Help / 点击查看帮助)"], {"default": "(Click for Help / 点击查看帮助)"}),
             },
         }
 
@@ -33,7 +32,7 @@ class SimpleWatermarkRemover:
             mask = F.pad(mask, (0, pad_w, 0, pad_h), value=0)
         return img, mask, h, w
 
-    def remove_watermark(self, image, mask, algorithm, help):
+    def remove_watermark(self, image, mask, algorithm):
         # image shape is [B, H, W, C]
         # mask shape is [B, H, W] or [H, W]
         
