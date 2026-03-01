@@ -3,7 +3,7 @@ import { app } from "../../../scripts/app.js";
 const HELP_DESCRIPTIONS = [
     { icon: "🖼️", name: "Load Image", zh: "加载图片", desc: "Use a standard Load Image node", zh_desc: "首先使用标准的图片加载节点" },
     { icon: "🖱️", name: "Open Editor", zh: "打开编辑器", desc: "Right-click on the image and select 'Open in MaskEditor'", zh_desc: "在图片上点右键，选择 'Open in MaskEditor'" },
-    { icon: "✍️", name: "Draw Mask", zh: "涂抹遮罩", desc: "Paint over the watermark and click 'Save to node'", zh_desc: "涂满水印区域，然后点击右键菜单里的 'Save to node'" },
+    { icon: "✍️", name: "Draw Mask", zh: "涂抹遮罩", desc: "Paint over the watermark and click 'Save'", zh_desc: "涂满水印区域，然后点击顶部的 '保存' 按钮" },
     { icon: "🔗", name: "Connect", zh: "连接节点", desc: "Connect IMAGE and MASK outputs to this node", zh_desc: "将图片和遮罩两个输出连到本节点" },
     { icon: "🚀", name: "Remove", zh: "去除水印", desc: "Run the prompt and LaMa will do the magic!", zh_desc: "点击运行，LaMa 模型会自动帮你完成修补" }
 ];
@@ -14,7 +14,7 @@ app.registerExtension({
         if (nodeData.name !== "SimpleWatermarkRemover") return;
 
         const proto = nodeType.prototype;
-        
+
         const onNodeCreated = proto.onNodeCreated;
         proto.onNodeCreated = function () {
             onNodeCreated?.apply(this, arguments);
@@ -28,7 +28,7 @@ app.registerExtension({
             const iconArea = [this.size[0] - 25, -LiteGraph.NODE_TITLE_HEIGHT, 25, LiteGraph.NODE_TITLE_HEIGHT];
             const wasHoveringHelp = this.isHoveringHelp;
             this.isHoveringHelp = (mx >= iconArea[0] && mx <= iconArea[0] + iconArea[2] && my >= iconArea[1] && my <= iconArea[1] + iconArea[3]);
-            
+
             if (wasHoveringHelp !== this.isHoveringHelp) {
                 this.setDirtyCanvas(true);
             }
@@ -63,20 +63,22 @@ app.registerExtension({
             ctx.save();
             ctx.textBaseline = "middle";
 
-            // 1. Calculate dimensions
-            let maxLabelW = 0;
-            let maxDescW = 0;
-            ctx.font = labelFont;
+            // 1. Calculate tighter dimensions
+            let maxLineW = 0;
+            ctx.font = "bold 16px Arial";
+            maxLineW = ctx.measureText("如何使用 / How to use").width;
+
             HELP_DESCRIPTIONS.forEach(item => {
-                maxLabelW = Math.max(maxLabelW, ctx.measureText(`${item.zh} / ${item.name}`).width);
-                ctx.font = descFont;
-                maxDescW = Math.max(maxDescW, ctx.measureText(`- ${item.zh_desc} / ${item.desc}`).width);
                 ctx.font = labelFont;
+                const lw = ctx.measureText(`${item.zh} / ${item.name}`).width;
+                ctx.font = descFont;
+                const dw = ctx.measureText(`- ${item.zh_desc} / ${item.desc}`).width;
+                // Icon (28) + the longer of label or description
+                const rowW = 28 + Math.max(lw, dw);
+                maxLineW = Math.max(maxLineW, rowW);
             });
 
-            const labelX = bx + margin + 28;
-            const descX = labelX + maxLabelW + 15;
-            const boxW = (descX - bx) + maxDescW + margin;
+            const boxW = maxLineW + margin * 2;
             const boxH = HELP_DESCRIPTIONS.length * itemHeight + 50;
             const by = -LiteGraph.NODE_TITLE_HEIGHT;
 
@@ -103,17 +105,19 @@ app.registerExtension({
             // 4. Draw Items
             HELP_DESCRIPTIONS.forEach((item, i) => {
                 const y = by + 60 + i * itemHeight;
+                const itemX = bx + margin;
+
                 ctx.font = "18px Arial";
                 ctx.fillStyle = "#fff";
-                ctx.fillText(item.icon, bx + margin, y);
-                
+                ctx.fillText(item.icon, itemX, y);
+
                 ctx.font = labelFont;
                 ctx.fillStyle = "#fff";
-                ctx.fillText(`${item.zh} / ${item.name}`, labelX, y - 8);
-                
+                ctx.fillText(`${item.zh} / ${item.name}`, itemX + 28, y - 8);
+
                 ctx.font = descFont;
                 ctx.fillStyle = "#aaa";
-                ctx.fillText(`- ${item.zh_desc} / ${item.desc}`, labelX, y + 10);
+                ctx.fillText(`- ${item.zh_desc} / ${item.desc}`, itemX + 28, y + 10);
             });
             ctx.restore();
         };
