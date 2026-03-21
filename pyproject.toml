@@ -1,7 +1,7 @@
 [project]
 name = "simplewatermarkremover"
 description = "ComfyUI custom node for removing watermarks from images using a mask editor and auto-downloading AI model. (Description by CC)"
-version = "1.0.2"
+version = "1.0.3"
 license = {file = "LICENSE"} 
 # classifiers = [
 #     # For OS-independent nodes (works on all operating systems)
